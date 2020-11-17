@@ -216,7 +216,7 @@ public class ClientUI extends JFrame implements Event {
 	entry.setEditable(false);
 	// entry.setLayout(null);
 	//textmod code
-	entry.setContentType("text.html");
+	entry.setContentType("text/html");
 	entry.setText(str);
 	Dimension d = new Dimension(textArea.getSize().width, calcHeightForText(str));
 	// attempt to lock all dimensions
