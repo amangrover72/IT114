@@ -14,7 +14,9 @@ public class Room implements AutoCloseable {
     private final static String CREATE_ROOM = "createroom";	
     private final static String JOIN_ROOM = "joinroom";	
     private final static String ROLL = "roll";	
-    private final static String FLIP = "flip";	
+    private final static String FLIP = "flip";
+    private final static String PM = "@"; 
+
     public Room(String name) {	
         this.name = name;	
     }	
@@ -111,7 +113,7 @@ public class Room implements AutoCloseable {
                         // wasCommand = true;	
                         break;	
                     case ROLL:	
-                        response = "Dice rolled " + Integer.toString(rand.nextInt(6) + 1) + "</u>";	
+					response = "<u><i><b style=\"color: blue;\">You rolled a " + Integer.toString(rand.nextInt(6) + 1) + "</b></i></u>";
                         // wasCommand = true;	
                         break;	
                     case FLIP:	
@@ -119,7 +121,7 @@ public class Room implements AutoCloseable {
                             "Heads",	
                             "Tails"	
                         };	
-                        response = "Coin flipped t" + coin[rand.nextInt(coin.length)] + "</u>";	
+                        response = "<u><i><b style=\"color: blue;\">You got " + coin[rand.nextInt(coin.length)] + "</b></i></u>";	
                         // wasCommand = true;	
                         break;	
                     default:	
@@ -174,6 +176,10 @@ public class Room implements AutoCloseable {
             // it was a command, don't broadcast	
             return;	
         }	
+        if (sendPM(sender, message)){
+            return;
+        }
+
         message = response;	
         Iterator < ServerThread > iter = clients.iterator();	
         while (iter.hasNext()) {	
@@ -185,6 +191,36 @@ public class Room implements AutoCloseable {
             }	
         }	
     }	
+
+    //sends a private message if a specific user is tagged
+    protected boolean sendPM(ServerThread sender, String message) {
+    	boolean isPM = false;
+    	String receiver = null;
+
+    	if (message.indexOf("@") > -1) {
+			String[] words = message.split(" ");
+			for(String word: words){
+			    if (word.charAt(0)=='@'){
+			        receiver = word.substring(1);
+			        isPM = true;
+			        //now that the message is known to be private, we can send it to each receiver
+
+			        Iterator<ServerThread> iter = clients.iterator();
+					while (iter.hasNext()) {
+						ServerThread c = iter.next();
+						if (c.getClientName().equals(receiver)) {
+							c.send(sender.getClientName(), message);
+						}
+					}
+			    }
+			}
+			//send one message to the sender so they can see it went through
+			sender.send(sender.getClientName(), message);
+		}
+    	//return true boolean
+    	return isPM;
+    }
+    
     /***	
      * Will attempt to migrate any remaining clients to the Lobby room. Will then	
      * set references to null and should be eligible for garbage collection	
