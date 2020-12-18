@@ -16,6 +16,8 @@ public class Room implements AutoCloseable {
     private final static String ROLL = "roll";	
     private final static String FLIP = "flip";
     private final static String PM = "@"; 
+    private final static String MUTE = "mute";
+    private final static String UNMUTE = "unmute";
 
     public Room(String name) {	
         this.name = name;	
@@ -127,6 +129,27 @@ public class Room implements AutoCloseable {
                     default:	
                         response = message;	
                         break;	
+
+                     case MUTE:
+                        String[] splitMsg = message.split(" ");
+                        //message will be  /mute user
+                        String mutedClient = splitMsg[1];
+                        client.mutedList.add(mutedClient);
+                        sendMessage(client,"<u><i><b style=\"color: blue;\">muted "+mutedClient+"</b></i></u>");
+                        //wasCommand = true;
+                        break;
+                    case UNMUTE:
+                        String[] splitArr = message.split(" ");
+                        String unmutedClient = splitArr[1];
+                        for(String name: client.mutedList) {
+                            if(name.equals(unmutedClient)) {
+                                client.mutedList.remove(unmutedClient);
+                                sendMessage(client,"<u><i><b style=\"color: blue;\">unmuted "+unmutedClient+"</b></i></u>");
+                                //wasCommand = true;
+                                break;
+                            }
+                        }
+                    break;
                 }	
             } else {	
                 // Bold	
@@ -183,13 +206,15 @@ public class Room implements AutoCloseable {
         message = response;	
         Iterator < ServerThread > iter = clients.iterator();	
         while (iter.hasNext()) {	
-            ServerThread client = iter.next();	
-            boolean messageSent = client.send(sender.getClientName(), message);	
-            if (!messageSent) {	
-                iter.remove();	
-                log.log(Level.INFO, "Removed client " + client.getId());	
-            }	
-        }	
+            ServerThread client = iter.next();
+            if(!client.isMuted(sender.getClientName())) {
+                boolean messageSent = client.send(sender.getClientName(), message);
+                if (!messageSent) {
+                iter.remove();
+                log.log(Level.INFO, "Removed client " + client.getId());
+                }
+            }
+        }
     }	
 
     //sends a private message if a specific user is tagged
@@ -208,7 +233,7 @@ public class Room implements AutoCloseable {
 			        Iterator<ServerThread> iter = clients.iterator();
 					while (iter.hasNext()) {
 						ServerThread c = iter.next();
-						if (c.getClientName().equals(receiver)) {
+						if (c.getClientName().equals(receiver)&&(!c.isMuted(sender.getClientName()))) {
 							c.send(sender.getClientName(), message);
 						}
 					}
