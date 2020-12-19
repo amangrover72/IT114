@@ -27,6 +27,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
+import java.io.File;
+import java.io.FileWriter;
 
 public class ClientUI extends JFrame implements Event {
     /**
@@ -277,11 +279,23 @@ public class ClientUI extends JFrame implements Event {
 
 	}
     }
+	//method for writing history to file
+	static void writeToFile(String file, String msg) {
+    	try (FileWriter writer = new FileWriter(file, true)) {
+			writer.write(msg);
+			writer.write(System.lineSeparator());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+
 
     @Override
     public void onMessageReceive(String clientName, String message) {
 	log.log(Level.INFO, String.format("%s: %s", clientName, message));
 	self.addMessage(String.format("%s: %s", clientName, message));
+	//chathistory file write
+	writeToFile("chatHistory.txt",clientName+": "+message);
     }
 
     @Override
@@ -299,5 +313,16 @@ public class ClientUI extends JFrame implements Event {
 	if (ui != null) {
 	    log.log(Level.FINE, "Started");
 	}
+
+	try {
+		File f = new File("chatHistory.txt");
+		if(f.createNewFile()) {
+			System.out.println("Chat history created");
+		}else {
+			System.out.println("Chat history already exists");
+		}
+	}catch (Exception e) { 
+        System.err.println(e); 
+    } 
     }
 }
