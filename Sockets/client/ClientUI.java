@@ -308,6 +308,11 @@ public class ClientUI extends JFrame implements Event {
 	}
     }
 
+	@Override
+    public void onIsMuted(String clientName) {
+    	System.out.println("hey");
+	}
+	
     public static void main(String[] args) {
 	ClientUI ui = new ClientUI("My UI");
 	if (ui != null) {
