@@ -135,7 +135,15 @@ public class Room implements AutoCloseable {
                         //message will be  /mute user
                         String mutedClient = splitMsg[1];
                         client.mutedList.add(mutedClient);
-                        sendMessage(client,"<u><i><b style=\"color: blue;\">muted "+mutedClient+"</b></i></u>");
+                        //sendMessage(client,"<u><i><b style=\"color: blue;\">muted "+mutedClient+"</b></i></u>");
+                        //sends a message to the muted user and the client that muted them
+		            	Iterator<ServerThread> iter = clients.iterator();
+		            	while (iter.hasNext()) {
+		        	    	ServerThread c = iter.next();
+		        		        if (c.getClientName().equals(mutedClient)||c.getClientName().equals(client.getClientName())) {
+		    		            	c.send(client.getClientName(),"<u><i><b style=\"color: blue;\">muted "+mutedClient+"</b></i></u>");
+				                }
+                        }
                         //wasCommand = true;
                         break;
                     case UNMUTE:
@@ -144,10 +152,18 @@ public class Room implements AutoCloseable {
                         for(String name: client.mutedList) {
                             if(name.equals(unmutedClient)) {
                                 client.mutedList.remove(unmutedClient);
-                                sendMessage(client,"<u><i><b style=\"color: blue;\">unmuted "+unmutedClient+"</b></i></u>");
+                                //sendMessage(client,"<u><i><b style=\"color: blue;\">unmuted "+unmutedClient+"</b></i></u>");
+                                //sends a message to the unmuted user and the client that unmuted them
+					            Iterator<ServerThread> iter1 = clients.iterator();
+				            	while (iter1.hasNext()) {
+						           ServerThread c = iter1.next();
+						              if (c.getClientName().equals(unmutedClient)||c.getClientName().equals(client.getClientName())) {
+					            		c.send(client.getClientName(),"<u><i><b style=\"color: blue;\">unmuted "+unmutedClient+"</b></i></u>");
+					                	}
+					            }
                                 //wasCommand = true;
                                 break;
-                            }
+                            }   
                         }
                     break;
                 }	

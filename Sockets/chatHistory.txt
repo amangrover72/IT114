@@ -1,3 +1,83 @@
 test1235: hi
 test1235: bye
 test1235: hi?
+user1: hi
+user1: hi
+user2: hello
+user2: hello
+user2:  <i>muted user2</i>
+user2: hi
+user2: hi
+user2: hi
+user2: hi
+user2: hi
+user2: hi
+user2: h
+user2:  <i>muted user1</i>
+user2:  <i>muted user1</i>
+user1: hi
+user1: hi
+user1: hi'h
+user1: h
+user1: ihi
+user1: h
+user1: ih
+user1: ih
+user1: iih
+user1: hi
+user1: ihih
+user1: hi
+user1: ih
+user1: hi
+user1: hi
+user1: h
+user1: ii
+user1: iii
+user1:  <i>muted user2</i>
+user1:  <i>muted user2</i>
+user1: ifjeige
+user1: rr
+user1: rtg
+user1: rt
+user1: hi
+user1: hi
+user1: hi
+user2: hi
+user2: hi
+user1: ok stop talking to me
+user1: ok stop talking to me
+user2: no
+user2: no
+user2: i 
+user2: i 
+user2: will
+user2: will
+user1: <u><i><b style="color: blue;">muted user2</b></i></u>
+user1: <u><i><b style="color: blue;">muted user2</b></i></u>
+user2: never
+user2: aww man
+user2: u muted me
+user1: haha i muted u
+user1: haha i muted u
+user2: :(
+user1: :)
+user1: :)
+user1: <u><i><b style="color: blue;">unmuted user2</b></i></u>
+user1: <u><i><b style="color: blue;">unmuted user2</b></i></u>
+user2: :)
+user2: :)
+user2: thanks for unmuting me
+user2: thanks for unmuting me
+user2: now
+user2: now
+user2: i
+user2: i
+user2: can
+user2: can
+user2: spam
+user2: spam
+user2: u
+user2: u
+user1: <u><i><b style="color: blue;">muted user2</b></i></u>
+user1: <u><i><b style="color: blue;">muted user2</b></i></u>
+user2: rats
