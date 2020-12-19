@@ -81,3 +81,5 @@ user2: u
 user1: <u><i><b style="color: blue;">muted user2</b></i></u>
 user1: <u><i><b style="color: blue;">muted user2</b></i></u>
 user2: rats
+user1: hi
+user1: <u><i><b style="color: blue;">muted user1</b></i></u>

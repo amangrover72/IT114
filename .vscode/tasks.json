@@ -1,0 +1,60 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Compile ChatRoom",
+        "type": "shell",
+        "command": "javac",
+        "args": [
+          "-d",
+          "../bin",
+          "**/*.java"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/ChatRoom/src"
+        }
+      },
+      {
+        "label": "Create Client JAR",
+        "command": "jar",
+        "args": [
+          "-cevf",
+          "client.ClientUI",
+          "Client.jar",
+          "client/*",
+          "server/Payload.class",
+          "server/PayloadType.class"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/ChatRoom/bin"
+        },
+      },
+      {
+        "label": "Create Server JAR",
+        "command": "jar",
+        "args": [
+          "-cevf",
+          "server.SocketServer",
+          "Server.jar",
+          "server/*"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/ChatRoom/bin"
+        }
+      },
+      {
+        "label": "Build ChatRoom",
+        "dependsOn": [
+          "Compile ChatRoom",
+          "Create Client JAR",
+          "Create Server JAR"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
